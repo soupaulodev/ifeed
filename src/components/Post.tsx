@@ -44,13 +44,14 @@ export function Post() {
         </p>
       </div>
 
-      <footer>
-        <h1>Deixe seu feedback</h1>
-        <form>
-          <textarea placeholder="Nossa, adorei amigo! Parabéns!" />
-        </form>
-        <button type="submit">Publicar</button>
-      </footer>
+      <form className={styles.commentForm}>
+        <strong>Deixe seu feedback</strong>
+        <textarea placeholder="Deixe um comentário" />
+
+        <footer>
+          <button type="submit">Publicar</button>
+        </footer>
+      </form>
     </article>
   );
 }
