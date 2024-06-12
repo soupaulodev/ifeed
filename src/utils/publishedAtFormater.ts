@@ -1,4 +1,7 @@
-export function publishedAtFormater(publishedAtDate: Date, currentDate: Date) {
+export function publishedAtFormater(
+  publishedAtDate: Date,
+  currentDate: Date
+): string {
   const diffTime = currentDate.getTime() - publishedAtDate.getTime();
   const diffMinutes = Math.floor(diffTime / 60000);
   const diffHours = Math.floor(diffTime / 3600000);
