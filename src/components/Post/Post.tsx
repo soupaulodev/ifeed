@@ -3,20 +3,78 @@ import { Avatar } from "../Avatar/Avatar";
 import { Comment } from "../Comment/Comment";
 import { IPost } from "./IPost";
 import styles from "./Post.module.css";
+import { timeTitleFormater } from "../../utils/timeTitleFormater";
+import { useState } from "react";
+import { IComment } from "../Comment/IComment";
 
 export function Post({ author, content, publishedAt, hashTags }: IPost) {
+  const [comments, setComments] = useState<IComment[]>([
+    {
+      id: 1,
+      author: {
+        name: "Paulo Marques",
+        avatarUrl: "https://github.com/soupaulodev.png",
+        role: "Web Developer",
+      },
+      content: "Muito bom, dev!",
+      publishedAt: new Date("2024-06-11 22:13:30"),
+      likes: 15,
+    },
+    {
+      id: 2,
+      author: {
+        name: "Paulo Marques",
+        avatarUrl: "https://github.com/soupaulodev.png",
+        role: "Web Developer",
+      },
+      content: "Muito bom, dev!",
+      publishedAt: new Date("2024-06-09 22:13:30"),
+      likes: 33,
+    },
+    {
+      id: 3,
+      author: {
+        name: "Paulo Marques",
+        avatarUrl: "https://github.com/Sampaioph.png",
+        role: "Web Developer",
+      },
+      content: "Muito bom, dev!",
+      publishedAt: new Date("2024-06-11 02:13:30"),
+      likes: 38,
+    },
+  ]);
+  const [commentContent, setCommentContent] = useState("");
+
   const publishedAtFormated = publishedAtFormater(
     new Date(publishedAt),
     new Date()
   );
-  const timeTitle = `${publishedAt.toLocaleDateString("pt-BR", {
-    day: "2-digit",
-    month: "long",
-    year: "numeric",
-  })} às ${publishedAt.toLocaleTimeString("pt-BR", {
-    hour: "2-digit",
-    minute: "2-digit",
-  })}`;
+  const timeTitle = timeTitleFormater(publishedAt);
+
+  function handleCreateNewComment(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    if (!commentContent) {
+      return;
+    }
+
+    setComments([
+      ...comments,
+      {
+        id: comments.length + 1,
+        author: {
+          name: "Paulo Marques",
+          avatarUrl: "https://github.com/soupaulodev.png",
+          role: "Web Developer",
+        },
+        content: commentContent,
+        publishedAt: new Date(),
+        likes: 0,
+      },
+    ]);
+
+    setCommentContent("");
+  }
 
   return (
     <article className={styles.post}>
@@ -45,6 +103,7 @@ export function Post({ author, content, publishedAt, hashTags }: IPost) {
             );
           }
         })}
+
         <p className={styles.hashtags}>
           {hashTags.map((tag) => {
             return (
@@ -56,18 +115,31 @@ export function Post({ author, content, publishedAt, hashTags }: IPost) {
         </p>
       </div>
 
-      <form className={styles.commentForm}>
+      <form onSubmit={handleCreateNewComment} className={styles.commentForm}>
         <strong>Deixe seu feedback</strong>
-        <textarea placeholder="Deixe um comentário" />
+        <textarea
+          placeholder="Deixe um comentário"
+          onChange={(e) => setCommentContent(e.target.value)}
+          value={commentContent}
+        />
 
         <footer>
           <button type="submit">Publicar</button>
         </footer>
       </form>
+
       <div className="commentList">
-        <Comment />
-        <Comment />
-        <Comment />
+        {comments.map((comment) => {
+          return (
+            <Comment
+              id={comment.id}
+              author={comment.author}
+              content={comment.content}
+              publishedAt={comment.publishedAt}
+              likes={comment.likes}
+            />
+          );
+        })}
       </div>
     </article>
   );
