@@ -5,9 +5,18 @@ import { IPost } from "./IPost";
 import styles from "./Post.module.css";
 
 export function Post({ author, content, publishedAt, hashTags }: IPost) {
-  const currentDate = new Date();
-  const publishedAtDate = new Date(publishedAt);
-  const publishedAtFormated = publishedAtFormater(publishedAtDate, currentDate);
+  const publishedAtFormated = publishedAtFormater(
+    new Date(publishedAt),
+    new Date()
+  );
+  const timeTitle = `${publishedAt.toLocaleDateString("pt-BR", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  })} às ${publishedAt.toLocaleTimeString("pt-BR", {
+    hour: "2-digit",
+    minute: "2-digit",
+  })}`;
 
   return (
     <article className={styles.post}>
@@ -19,17 +28,7 @@ export function Post({ author, content, publishedAt, hashTags }: IPost) {
             <span>{author.role}</span>
           </div>
         </div>
-        <time
-          title={`${publishedAtDate.toLocaleDateString("pt-BR", {
-            day: "2-digit",
-            month: "long",
-            year: "numeric",
-          })} às ${publishedAtDate.toLocaleTimeString("pt-BR", {
-            hour: "2-digit",
-            minute: "2-digit",
-          })}`}
-          dateTime={publishedAt.toISOString()}
-        >
+        <time title={timeTitle} dateTime={publishedAt.toISOString()}>
           {publishedAtFormated}
         </time>
       </header>
