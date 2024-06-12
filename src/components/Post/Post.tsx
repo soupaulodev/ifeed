@@ -43,7 +43,7 @@ export function Post({ author, content, publishedAt, hashTags }: IPost) {
       likes: 38,
     },
   ]);
-  const [commentContent, setCommentContent] = useState("");
+  const [newCommentContent, setNewCommentContent] = useState("");
 
   const publishedAtFormated = publishedAtFormater(
     new Date(publishedAt),
@@ -54,7 +54,7 @@ export function Post({ author, content, publishedAt, hashTags }: IPost) {
   function handleCreateNewComment(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    if (!commentContent) {
+    if (!newCommentContent) {
       return;
     }
 
@@ -67,13 +67,13 @@ export function Post({ author, content, publishedAt, hashTags }: IPost) {
           avatarUrl: "https://github.com/soupaulodev.png",
           role: "Web Developer",
         },
-        content: commentContent,
+        content: newCommentContent,
         publishedAt: new Date(),
         likes: 0,
       },
     ]);
 
-    setCommentContent("");
+    setNewCommentContent("");
   }
 
   return (
@@ -119,8 +119,8 @@ export function Post({ author, content, publishedAt, hashTags }: IPost) {
         <strong>Deixe seu feedback</strong>
         <textarea
           placeholder="Deixe um comentário"
-          onChange={(e) => setCommentContent(e.target.value)}
-          value={commentContent}
+          onChange={(e) => setNewCommentContent(e.target.value)}
+          value={newCommentContent}
         />
 
         <footer>
