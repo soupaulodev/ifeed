@@ -1,19 +1,28 @@
 import { ThumbsUp, Trash } from "phosphor-react";
 import styles from "./Comment.module.css";
 import { Avatar } from "../Avatar/Avatar";
+import { timeTitleFormater } from "../../utils/timeTitleFormater";
+import { IComment } from "./IComment";
+import { publishedAtFormater } from "../../utils/publishedAtFormater";
 
-export function Comment() {
+export function Comment({ id, author, content, publishedAt, likes }: IComment) {
+  const publishedAtFormated = publishedAtFormater(
+    new Date(publishedAt),
+    new Date()
+  );
+  const timeTitle = timeTitleFormater(publishedAt);
+
   return (
-    <div className={styles.comment}>
-      <Avatar src="https://github.com/soupaulodev.png" />
+    <div key={id} className={styles.comment}>
+      <Avatar src={author.avatarUrl} />
 
       <div className={styles.commentBox}>
         <div className={styles.commentContent}>
           <header>
             <div className={styles.authorAndTime}>
-              <strong>Paulo Marques</strong>
-              <time title="11 de Maio às 08:13h" dateTime="2022-05-11 08:13:30">
-                Cerca de 1h atrás
+              <strong>{author.name}</strong>
+              <time title={timeTitle} dateTime={publishedAt.toISOString()}>
+                {publishedAtFormated}
               </time>
             </div>
 
@@ -21,13 +30,13 @@ export function Comment() {
               <Trash size={20} />
             </button>
           </header>
-          <p>Muito bom Paulo, parabéns!!</p>
+          <p>{content}</p>
         </div>
 
         <footer>
           <button>
             <ThumbsUp />
-            Aplaudir <span>20</span>
+            Aplaudir <span>{likes}</span>
           </button>
         </footer>
       </div>
