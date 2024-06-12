@@ -1,5 +1,5 @@
 import styles from "./Header.module.css";
-import logo from "../assets/images/ifeed-logo.svg";
+import logo from "../../assets/images/ifeed-logo.svg";
 export function Header() {
   return (
     <header className={styles.header}>
