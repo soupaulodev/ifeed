@@ -26,7 +26,7 @@ export function Post() {
         </p>{" "}
         <p>
           <a href="" target="_blank">
-            👉 jane.design/doctorcare
+            👉 /doctorcare
           </a>
         </p>
         <p className={styles.hashtags}>
