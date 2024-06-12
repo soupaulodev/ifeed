@@ -5,15 +5,25 @@ import { timeTitleFormater } from "../../utils/timeTitleFormater";
 import { IComment } from "./IComment";
 import { publishedAtFormater } from "../../utils/publishedAtFormater";
 
-export function Comment({ id, author, content, publishedAt, likes }: IComment) {
+export function Comment({
+  author,
+  content,
+  publishedAt,
+  likes,
+  onDeleteComment = () => {},
+}: IComment) {
   const publishedAtFormated = publishedAtFormater(
     new Date(publishedAt),
     new Date()
   );
   const timeTitle = timeTitleFormater(publishedAt);
 
+  function handleDeleteComment() {
+    onDeleteComment(content);
+  }
+
   return (
-    <div key={id} className={styles.comment}>
+    <div className={styles.comment}>
       <Avatar src={author.avatarUrl} />
 
       <div className={styles.commentBox}>
@@ -26,7 +36,7 @@ export function Comment({ id, author, content, publishedAt, likes }: IComment) {
               </time>
             </div>
 
-            <button title="Deletar comentário">
+            <button onClick={handleDeleteComment} title="Deletar comentário">
               <Trash size={20} />
             </button>
           </header>

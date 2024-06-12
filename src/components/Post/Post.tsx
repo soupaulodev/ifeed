@@ -10,7 +10,6 @@ import { IComment } from "../Comment/IComment";
 export function Post({ author, content, publishedAt, hashTags }: IPost) {
   const [comments, setComments] = useState<IComment[]>([
     {
-      id: 1,
       author: {
         name: "Paulo Marques",
         avatarUrl: "https://github.com/soupaulodev.png",
@@ -21,24 +20,22 @@ export function Post({ author, content, publishedAt, hashTags }: IPost) {
       likes: 15,
     },
     {
-      id: 2,
       author: {
         name: "Paulo Marques",
         avatarUrl: "https://github.com/soupaulodev.png",
         role: "Web Developer",
       },
-      content: "Muito bom, dev!",
+      content: "Muito bom, dev!a",
       publishedAt: new Date("2024-06-09 22:13:30"),
       likes: 33,
     },
     {
-      id: 3,
       author: {
         name: "Paulo Marques",
         avatarUrl: "https://github.com/Sampaioph.png",
         role: "Web Developer",
       },
-      content: "Muito bom, dev!",
+      content: "Muito bom, dev!vv",
       publishedAt: new Date("2024-06-11 02:13:30"),
       likes: 38,
     },
@@ -61,7 +58,6 @@ export function Post({ author, content, publishedAt, hashTags }: IPost) {
     setComments([
       ...comments,
       {
-        id: comments.length + 1,
         author: {
           name: "Paulo Marques",
           avatarUrl: "https://github.com/soupaulodev.png",
@@ -74,6 +70,14 @@ export function Post({ author, content, publishedAt, hashTags }: IPost) {
     ]);
 
     setNewCommentContent("");
+  }
+
+  function deleteComment(content: string) {
+    const commentsWithoutDeletedOne = comments.filter((comment) => {
+      return comment.content !== content;
+    });
+
+    setComments([...commentsWithoutDeletedOne]);
   }
 
   return (
@@ -132,11 +136,12 @@ export function Post({ author, content, publishedAt, hashTags }: IPost) {
         {comments.map((comment) => {
           return (
             <Comment
-              id={comment.id}
+              key={comment.content + comment.publishedAt}
               author={comment.author}
               content={comment.content}
               publishedAt={comment.publishedAt}
               likes={comment.likes}
+              onDeleteComment={deleteComment}
             />
           );
         })}

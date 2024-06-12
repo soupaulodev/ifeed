@@ -1,5 +1,4 @@
 export interface IComment {
-  id: number;
   author: {
     name: string;
     role: string;
@@ -8,4 +7,5 @@ export interface IComment {
   content: string;
   publishedAt: Date;
   likes: number;
+  onDeleteComment?: (content: string) => void;
 }
