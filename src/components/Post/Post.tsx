@@ -72,6 +72,15 @@ export function Post({ author, content, publishedAt, hashTags }: IPost) {
     setNewCommentContent("");
   }
 
+  function handleNewCommentChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
+    e.target.setCustomValidity("");
+    setNewCommentContent(e.target.value);
+  }
+
+  function handleNewCommentInvalid(e: React.FocusEvent<HTMLTextAreaElement>) {
+    e.target.setCustomValidity("Esse campo e obrigatório");
+  }
+
   function deleteComment(content: string) {
     const commentsWithoutDeletedOne = comments.filter((comment) => {
       return comment.content !== content;
@@ -79,6 +88,8 @@ export function Post({ author, content, publishedAt, hashTags }: IPost) {
 
     setComments([...commentsWithoutDeletedOne]);
   }
+
+  const isNewCommentEmpty = newCommentContent.length === 0;
 
   return (
     <article className={styles.post}>
@@ -123,12 +134,16 @@ export function Post({ author, content, publishedAt, hashTags }: IPost) {
         <strong>Deixe seu feedback</strong>
         <textarea
           placeholder="Deixe um comentário"
-          onChange={(e) => setNewCommentContent(e.target.value)}
+          onChange={handleNewCommentChange}
           value={newCommentContent}
+          required
+          onInvalid={handleNewCommentInvalid}
         />
 
         <footer>
-          <button type="submit">Publicar</button>
+          <button type="submit" disabled={isNewCommentEmpty}>
+            Publicar
+          </button>
         </footer>
       </form>
 

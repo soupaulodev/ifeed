@@ -4,6 +4,7 @@ import { Avatar } from "../Avatar/Avatar";
 import { timeTitleFormater } from "../../utils/timeTitleFormater";
 import { IComment } from "./IComment";
 import { publishedAtFormater } from "../../utils/publishedAtFormater";
+import { useState } from "react";
 
 export function Comment({
   author,
@@ -12,11 +13,16 @@ export function Comment({
   likes,
   onDeleteComment = () => {},
 }: IComment) {
+  const [likeCount, setLikeCount] = useState(likes || 0);
   const publishedAtFormated = publishedAtFormater(
     new Date(publishedAt),
     new Date()
   );
   const timeTitle = timeTitleFormater(publishedAt);
+
+  function handleLikeComment() {
+    setLikeCount((state) => state + 1);
+  }
 
   function handleDeleteComment() {
     onDeleteComment(content);
@@ -44,9 +50,9 @@ export function Comment({
         </div>
 
         <footer>
-          <button>
+          <button onClick={handleLikeComment}>
             <ThumbsUp />
-            Aplaudir <span>{likes}</span>
+            Aplaudir <span>{likeCount}</span>
           </button>
         </footer>
       </div>

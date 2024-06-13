@@ -6,6 +6,6 @@ export interface IComment {
   };
   content: string;
   publishedAt: Date;
-  likes: number;
+  likes?: number;
   onDeleteComment?: (content: string) => void;
 }
